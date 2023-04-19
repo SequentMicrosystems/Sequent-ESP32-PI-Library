@@ -16,13 +16,13 @@ extern "C" {
 const int gpioMaping[RASP_GPIO_COUNT] =
 {
 	1, 3, 201, 201, 336, 14, 12, 334, 5, 19, 23, 18, 25, 33, 17, 16, 13, 339, 101, 102,
-	15, 4, 26, 335, 32, 103, 27, 104
+	15, 104, 26, 335, 32, 103, 27, 104
 };
 
-//Raspberry 40 pin connector pin number to ESP GPIO  [1..40]
-const int pinMaping[RASP_HEADER_PIN_COUNT] = {200, 200, 201, 200, 201, 200, 336,
+//Raspberry 40 pin connector pin number to ESP GPIO  [0,1..40]
+const int pinMaping[RASP_HEADER_PIN_COUNT +1] = {203, 200, 200, 201, 200, 201, 200, 336,
 	17, 200, 16, 339, 101, 104, 200, 26, 335, 200, 32, 23, 200, 19, 103, 18, 5,
-	200, 334, 1, 3, 14, 200, 12, 25, 33, 200, 102, 13, 27, 15, 200, 4};
+	200, 334, 1, 3, 14, 200, 12, 25, 33, 200, 102, 13, 27, 15, 200, 104};
 
 SM_ESP32Pi::SM_ESP32Pi(uint8_t pinNoType)
 {
@@ -55,7 +55,7 @@ void SM_ESP32Pi::pinDir(unsigned int pin, int mode)
 	}
 	else
 	{
-		if (pin < RASP_HEADER_PIN_COUNT && !isDebugPin(pin))
+		if (pin <= RASP_HEADER_PIN_COUNT && !isDebugPin(pin))
 		{
 			if (pinMaping[pin] < 100)
 			{
@@ -83,7 +83,7 @@ void SM_ESP32Pi::pinWrite(unsigned int pin, int val)
 	}
 	else
 	{
-		if (pin < RASP_HEADER_PIN_COUNT && !isDebugPin(pin))
+		if (pin <= RASP_HEADER_PIN_COUNT && !isDebugPin(pin))
 		{
 			if (pinMaping[pin] < 100)
 			{
@@ -111,7 +111,7 @@ int SM_ESP32Pi::pinRead(unsigned int pin)
 	}
 	else
 	{
-		if (pin < RASP_HEADER_PIN_COUNT && !isDebugPin(pin))
+		if (pin <= RASP_HEADER_PIN_COUNT && !isDebugPin(pin))
 		{
 			if (pinMaping[pin] < 100)
 			{
@@ -128,7 +128,7 @@ int SM_ESP32Pi::pinRead(unsigned int pin)
 
 int SM_ESP32Pi::header2Gpio(int pin)
 {
-	if (pin < RASP_HEADER_PIN_COUNT && !isDebugPin(pin))
+	if (pin <= RASP_HEADER_PIN_COUNT && !isDebugPin(pin))
 	{
 		if (pinMaping[pin] < 100)
 		{
