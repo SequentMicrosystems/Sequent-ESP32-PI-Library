@@ -10,7 +10,7 @@
 //#define TEST_OUTPUT 1
 #define TEST_INPUT 1
 
-SM_ESP32Pi esp = SM_ESP32Pi(1);// pin header pin number type 
+SM_ESP32Pi esp = SM_ESP32Pi(1);// pin header pin number type one based counting [1..40]
 
 void setup()
 {
@@ -23,7 +23,7 @@ void setup()
   Serial.println("Digital output test begin");
   Serial.println("Togle all pins at 0.5Hz");
   nbDelay(1000);
-  for (i = 0; i < RASP_HEADER_PIN_COUNT; i++)
+  for (i = 1; i <= RASP_HEADER_PIN_COUNT; i++)
   {
     Serial.printf("H: %d  ESP: %d\n", i, esp.header2Gpio(i));
     esp.pinDir(i, OUTPUT);
@@ -31,7 +31,7 @@ void setup()
 #elif TEST_INPUT
   Serial.println("Digital input test begin");
   nbDelay(1000);
-  for (i = 0; i < RASP_HEADER_PIN_COUNT; i++)
+  for (i = 1; i <= RASP_HEADER_PIN_COUNT; i++)
   {
     esp.pinDir(i, INPUT);
   }
@@ -46,7 +46,7 @@ void loop()
   static int lastPin[RASP_HEADER_PIN_COUNT];
 
 #ifdef TEST_OUTPUT
-  for (i = 0; i < RASP_HEADER_PIN_COUNT; i++)
+  for (i = 1; i <= RASP_HEADER_PIN_COUNT; i++)
   {
     esp.pinWrite(i, HIGH);//library digital write function
 //    if(esp.header2Gpio(i) > -1) // find ESP GPIO number, avoid power and NC pins
@@ -55,14 +55,14 @@ void loop()
 //    }
   }
   nbDelay(1000);
-  for (i = 0; i < RASP_HEADER_PIN_COUNT; i++)
+  for (i = 1; i <= RASP_HEADER_PIN_COUNT; i++)
   {
     esp.pinWrite(i, LOW);
   }
   nbDelay(1000);
 
 #elif TEST_INPUT
-  for (i = 0; i < RASP_HEADER_PIN_COUNT; i++)
+  for (i = 1; i <= RASP_HEADER_PIN_COUNT; i++)
   {
     val = esp.pinRead(i);
     if ( lastPin[i] != val)
